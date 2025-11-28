@@ -9,9 +9,7 @@ from typing import Dict, Any, List, Tuple
 app = Flask(__name__)
 
 
-# -----------------------------
-# Clase Estacion y Carga de Grafo
-# -----------------------------
+
 class Estacion:
     """
     Representa una estación de metro/tren, incluyendo la información
@@ -28,9 +26,9 @@ class Estacion:
         self.IDs = int(data.get('IDs', 0))
 
         # --- NUEVOS ATRIBUTOS DE ACCESIBILIDAD ---
-        # ATENCIÓN: Se asume que la columna es 'mecánica' con tilde.
+        
         self.escalera: int = int(data.get('escalera', 0))
-        self.mecanica: int = int(data.get('mecánica', 0)) # <--- Debe ser 'mecánica' con tilde
+        self.mecanica: int = int(data.get('mecánica', 0))
         self.ascensor: int = int(data.get('ascensor', 0))
 
         # Horarios y frecuencias
@@ -71,18 +69,15 @@ class Estacion:
         except (ValueError, AttributeError):
             return time(0, 0)
 
-    # Nota: Se elimina obtener_accesibilidad() ya que es redundante con @property accesibilidad
-    # y solo crea confusión en el código.
 
 def cargar_estaciones():
-    # estaciones_por_nombre: {'Pino Suárez': [Estacion_L1, Estacion_L2]}
+   
     estaciones_por_nombre: Dict[str, List[Estacion]] = {}
-    # estaciones_por_nombre_linea: {('Pino Suárez', 1): Estacion_L1}
+
     estaciones_por_nombre_linea: Dict[Tuple[str, int], Estacion] = {}
 
     csv_path = 'CDMX.csv'
     try:
-        # Nota: En un entorno real, usar os.path.join para asegurar la ruta.
         with open(csv_path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
@@ -104,7 +99,7 @@ def cargar_estaciones():
         # Vecino siguiente (mayor ID)
         for e in estaciones_por_nombre_linea.values():
             if e.linea == est.linea and e.IDs == est.IDs + 1:
-                # (nombre_vecino, linea_vecino, tiempo_a_vecino, es_transbordo)
+                
                 est.vecinos.append((e.nombre, e.linea, est.tiempo_sig, False))
                 break
 
@@ -444,4 +439,5 @@ def buscar():
 if __name__ == '__main__':
     # Nota: Asegúrate de que 'templates/index.html', 'templates/results.html' y 'CDMX.csv'
     # estén en la ubicación esperada.
+
     app.run(debug=True)
