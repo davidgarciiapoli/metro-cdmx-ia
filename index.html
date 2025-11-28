@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetroCDMX</title>
+    <style>
+        /* Paleta de colores: #001a33, #670010, #960018, #cb4c46, #ff8478 */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(60deg, #0a2540 , #1e3a5f );
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #2e5c8a ;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3em;
+            color: #a8d8ff  ;
+            text-shadow: 2px 2px 4px #0a2540;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #5b9bd5    ;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        }
+
+        label {
+            display: block;
+            margin: 20px 0 5px;
+            font-weight: bold;
+        }
+
+        select, input[type="date"], input[type="time"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            font-size: 1em;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 30px;
+            background-color: #1e3a5f ;
+            color: #a8d8ff ;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #960018;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #1e3a5f ;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+            color: #a8d8ff ;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>MetroCDMX</h1>
+    </header>
+
+    <main>
+        <form action="/buscar" method="post">
+            <label for="origen">Estación de origen:</label>
+            <select id="origen" name="origen">
+                {% for e in estaciones %}
+                <option value="{{ e }}">{{ e }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="destino">Estación de destino:</label>
+            <select id="destino" name="destino">
+                {% for e in estaciones %}
+                <option value="{{ e }}">{{ e }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" value="{{ fecha_hoy }}" required>
+
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" name="hora" min="00:00" max="23:59" value="{{ hora_actual }}" required>
+
+            <button type="submit">Buscar viaje</button>
+        </form>
+
+    </main>
+
+    <footer>
+        <p>© 2025 MetroCMDX - Todos los derechos reservados</p>
+    </footer>
+</body>
+</html>
